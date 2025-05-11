@@ -1,0 +1,48 @@
+﻿@page
+@model Grigorovici_Tonia_Siemens_Internship.Pages.Borrowings.DetailsModel
+
+@{
+    ViewData["Title"] = "Borrowing Details";
+}
+
+<h1>Borrowing Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Borrowing.Member)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Borrowing.Member.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Borrowing.Book)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Borrowing.Book.Title) - @Html.DisplayFor(model => model.Borrowing.Book.Author.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Borrowing.BorrowDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Borrowing.BorrowDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Borrowing.ReturnDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Borrowing.ReturnDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Borrowing.Returned)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Borrowing.Returned)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Borrowing.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

@@ -1,0 +1,95 @@
+﻿@page
+@model Grigorovici_Tonia_Siemens_Internship.Pages.Categories.IndexModel
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h1>Categories</h1>
+
+<p>
+    <a asp-page="Create">Create Category</a>
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find Book Category:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-page="./Index">Back to full list</a>
+        </p>
+    </div>
+</form>
+<p>Click <b>Select</b> to see books in each category.</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].CategoryName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CategoryData.Categories)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.CategoryID)
+            {
+                selectedRow = "table-success";
+            }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                <a asp-page="./Index" asp-route-id="@item.ID" asp-route-searchString="@Model.CurrentFilter">Select</a> |
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    @if (item.BookCategories == null || !item.BookCategories.Any())
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Cannot delete if books are still in the library.</span>
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@if (Model.CategoryData.Books != null && Model.CategoryData.Books.Any())
+{
+    <h3>Books in Selected Category</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+				<th>Author</th>
+                <th>Quantity</th>
+                <th>Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model.CategoryData.Books)
+            {
+                <tr>
+                    <td>@b.Title</td>
+					<td>@b.Author.FullName</td>
+                    <td>@b.Quantity</td>
+                    <td>
+                        @if (b.AvailableQuantity == 0)
+                        {
+                            <span class="text-danger">All books are currently borrowed.</span>
+                        }
+                        else
+                        {
+                            <span class="text-success">@b.AvailableQuantity</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

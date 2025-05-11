@@ -1,0 +1,99 @@
+﻿@page
+@model Grigorovici_Tonia_Siemens_Internship.Pages.Borrowings.IndexModel
+
+@{
+    ViewData["Title"] = "Borrowings";
+}
+
+<h1>Borrowings</h1>
+
+<p>
+    <a asp-page="Create">Borrow a Book</a>
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find Member or Book Title/Author:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </p>
+    </div>
+</form>
+<form asp-page="./Index" method="get">
+    <div class="form-group">
+        <input type="hidden" name="showBorrowedOnly" value="true" />
+        <input type="hidden" name="searchString" value="@Model.CurrentFilter" />
+        <button type="submit" class="btn btn-success">Currently Borrowed</button>
+    </div>
+</form>
+<a asp-page="./Index">Back to full list</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrowing[0].Member)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrowing[0].Book)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrowing[0].BorrowDate) 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrowing[0].ReturnDate) 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrowing[0].Returned)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BorrowingD.Borrowings)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.SelectedBorrowingId)
+            {
+                selectedRow = "selected";
+            }
+            else
+            {
+                selectedRow = "";
+            }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.FullName)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title) - @Html.DisplayFor(modelItem => item.Book.Author.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BorrowDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Returned) 
+                    @if (!item.Returned && item.ReturnDate < DateTime.Today)
+                    {
+                        <span class="text-danger">Overdue!</span>
+                    }
+
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    @if (item.Returned)
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Cannot delete borrowed books.</span>
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
