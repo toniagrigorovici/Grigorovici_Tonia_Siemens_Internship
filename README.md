@@ -3,7 +3,7 @@ How to run the project:
 
 	1. Clone the repository
 	2. Open Package Manager Console and run the following command: Update-Database
-	3. Check the connection string in the appsettings.json file:
+	3. Check the connection string in the appsettings.json file
 	4. Run the project
 
 
